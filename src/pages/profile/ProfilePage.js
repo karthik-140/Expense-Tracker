@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router-dom';
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useEffect } from 'react';
 
 import classes from './ProfilePage.module.css';
 import AuthContext from '../../components/store/auth-context';
@@ -14,7 +14,7 @@ const ProfilePage = () => {
         event.preventDefault();
         const enteredName = nameInputRef.current.value;
         const enteredPhotoUrl = photoUrlInputRef.current.value;
-         let url = 'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAh3QApboOkimKRo0ivTZo1CkZk4ZpFK4I'
+        let url = 'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAh3QApboOkimKRo0ivTZo1CkZk4ZpFK4I'
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({
@@ -40,9 +40,40 @@ const ProfilePage = () => {
         })
     }
 
-    const cancelButtonHandler = () =>{
-         history.replace('/welcome');
+    const cancelButtonHandler = () => {
+        history.replace('/welcome');
     }
+
+    useEffect(() => {
+        fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAh3QApboOkimKRo0ivTZo1CkZk4ZpFK4I', {
+            method: 'POST',
+            body: JSON.stringify({
+                idToken: authCtx.token,
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                let errorMessage = "Failed to fetch Details";
+                throw new Error(errorMessage);
+            }
+        }).then((data) => {
+            const email = localStorage.getItem('email');
+            const users = data.users;
+            users.forEach((user) =>{
+                if(user.email === email){
+                    nameInputRef.current.value = user.displayName;
+                    photoUrlInputRef.current.value = user.photoUrl;
+                }
+            })
+            
+        }).catch((error) => {
+            alert(error.message);
+        })
+    },[authCtx.token]);
 
     return (
         <section >

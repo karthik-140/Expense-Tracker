@@ -52,7 +52,7 @@ const ExpenseForm = () => {
       }
     })
       .then((data) => {
-        authCtx.login(data.idToken);
+        authCtx.login(data.idToken, enteredEmail);
         history.replace("/welcome");
       })
       .catch((err) => {
