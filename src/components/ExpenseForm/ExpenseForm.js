@@ -1,10 +1,14 @@
-import React, { useState, useRef} from 'react';
+import { useHistory } from 'react-router-dom';
+import React, { useState, useRef, useContext } from 'react';
 
 import classes from './ExpenseForm.module.css';
+import AuthContext from '../store/auth-context';
 
 const ExpenseForm = () => {
-    const emailInputRef = useRef();
+  const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const authCtx = useContext(AuthContext);
+  const history = useHistory();
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +43,7 @@ const ExpenseForm = () => {
     }).then((res) => {
       setIsLoading(false);
       if (res.ok) {
-          return res.json();
+        return res.json();
       } else {
         return res.json().then((data) => {
           let errorMessage = "Authetication failed";
@@ -47,15 +51,16 @@ const ExpenseForm = () => {
         })
       }
     })
-    .then((data) => {
-        console.log("User succefully signed up");
-    })
-    .catch((err) => {
-      alert(err.message);
-    })
+      .then((data) => {
+        authCtx.login(data.idToken);
+        history.replace("/welcome");
+      })
+      .catch((err) => {
+        alert(err.message);
+      })
   }
 
-   return (
+  return (
     <section className={classes.auth}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
       <form onSubmit={submitHandler} >
@@ -97,7 +102,7 @@ const ExpenseForm = () => {
         </div>
       </form>
     </section>
-   )
+  )
 }
 
 export default ExpenseForm;
