@@ -1,0 +1,13 @@
+.welcome {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 35px 0px 10px;
+    border-bottom: 1px solid black;
+}
+
+.welcome p{
+    background-color: bisque;
+    align-self: center;
+    padding: 5px;
+    border-radius: 25px;
+}
