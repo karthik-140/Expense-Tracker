@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import React, { useState, useRef, useContext } from 'react';
 
 import classes from './ExpenseForm.module.css';
@@ -92,6 +92,7 @@ const ExpenseForm = () => {
         <div className={classes.actions}>
           {!isLoading && <button>{isLogin ? 'Login' : 'Create Account'}</button>}
           {isLoading && <p>Sending request...</p>}
+          {isLogin && <Link to='/forgot-password' style={{color:"darkgoldenrod", marginTop: "0.5rem"}}>Forgot Password?</Link>}
           <button
             type='button'
             className={classes.toggle}

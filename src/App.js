@@ -6,6 +6,7 @@ import ExpenseForm from "./components/ExpenseForm/ExpenseForm";
 import WelcomePage from './pages/welcome/WelcomePage';
 import AuthContext from './components/store/auth-context';
 import ProfilePage from './pages/profile/ProfilePage';
+import ForgotPassword from './pages/forgotpassword/ForgotPassword';
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -24,6 +25,9 @@ function App() {
       </Route>
       <Route path="/profile">
         <ProfilePage />
+      </Route>
+      <Route path="/forgot-password">
+        <ForgotPassword />
       </Route>
       <Route path='*'>
         <Redirect to='/' />
