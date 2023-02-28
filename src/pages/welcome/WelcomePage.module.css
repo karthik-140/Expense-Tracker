@@ -11,3 +11,20 @@
     padding: 5px;
     border-radius: 25px;
 }
+
+.actions {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.actions button{
+    background-color: aquamarine;
+    border: 1px solid green;
+    padding: 8px;
+    font-weight: bolder;
+    font-size: medium;
+}
+
+.actions button:hover{
+    background-color:rgb(59, 221, 181);
+}
