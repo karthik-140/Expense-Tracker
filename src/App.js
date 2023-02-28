@@ -10,19 +10,25 @@ import ProfilePage from './pages/profile/ProfilePage';
 function App() {
   const authCtx = useContext(AuthContext);
   return (
-      <Switch>
-        <Route path="/auth">
-          <Header />
-          <ExpenseForm />
-        </Route>
-        <Route path="/welcome">
-          {authCtx.isLoggedIn && <WelcomePage />}
-          {!authCtx.isLoggedIn && <Redirect to="/auth" />}
-        </Route>
-        <Route path="/profile">
-          <ProfilePage />
-        </Route>
-      </Switch>
+    <Switch>
+      <Route path='/' exact>
+        <Redirect to='/auth' />
+      </Route>
+      <Route path="/auth">
+        <Header />
+        <ExpenseForm />
+      </Route>
+      <Route path="/welcome">
+        {authCtx.isLoggedIn && <WelcomePage />}
+        {!authCtx.isLoggedIn && <Redirect to="/auth" />}
+      </Route>
+      <Route path="/profile">
+        <ProfilePage />
+      </Route>
+      <Route path='*'>
+        <Redirect to='/' />
+      </Route>
+    </Switch>
   );
 }
 
