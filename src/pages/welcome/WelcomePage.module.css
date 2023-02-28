@@ -3,6 +3,7 @@
     justify-content: space-between;
     padding: 0px 35px 0px 10px;
     border-bottom: 1px solid black;
+    align-items: center;
 }
 
 .welcome p{
@@ -12,8 +13,27 @@
     border-radius: 25px;
 }
 
+.actions-logout {
+    display: flex;
+    flex-direction: column;
+}
+
+.actions-logout button{
+    width: 60px;
+    align-self: center;
+    background-color: rgb(241, 108, 108);
+    border: 1px solid ;
+    margin-bottom: 5px;
+    font-weight: bolder;
+    padding: 5px;
+}
+
+.actions-logout button:hover{
+    background-color: rgb(235, 150, 150);
+}
+
 .actions {
-    margin-top: 3rem;
+    margin-top: 1rem;
     text-align: center;
 }
 
