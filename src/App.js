@@ -7,6 +7,7 @@ import WelcomePage from './pages/welcome/WelcomePage';
 import AuthContext from './components/store/auth-context';
 import ProfilePage from './pages/profile/ProfilePage';
 import ForgotPassword from './pages/forgotpassword/ForgotPassword';
+import Expenses from './pages/Expenses/Expenses';
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -29,6 +30,10 @@ function App() {
       <Route path="/forgot-password">
         <ForgotPassword />
       </Route>
+      {authCtx.isLoggedIn && <Route path="/expenses">
+        <Header />
+        <Expenses />
+      </Route>}
       <Route path='*'>
         <Redirect to='/' />
       </Route>

@@ -43,6 +43,7 @@
     padding: 8px;
     font-weight: bolder;
     font-size: medium;
+    margin-right: 1rem;
 }
 
 .actions button:hover{

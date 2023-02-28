@@ -39,6 +39,10 @@ const WelcomePage = () => {
         history.replace('/auth');
     }
 
+    const addClickHandler = () =>{
+        history.replace('/expenses');
+    }
+
     return (
         <>
             <section className={classes.welcome}>
@@ -50,6 +54,7 @@ const WelcomePage = () => {
             </section>
             <div className={classes.actions}>
                 <button onClick={verifyEmailHandler}>Verify Email</button>
+                <button onClick={addClickHandler}>Add Expenses</button>
             </div>
         </>
     )
