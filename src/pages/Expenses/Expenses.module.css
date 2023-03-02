@@ -106,4 +106,28 @@
     font-weight: bolder;
     padding: 10px;
     border-bottom: 1px solid;
+    padding-right: 150px;
 }
+
+.delete button{
+   background-color: rgb(255, 120, 120);
+   border: 1px solid;
+   font-weight: bold;
+   border-radius: 3px;
+}
+.delete button:hover{
+    background-color: rgb(252, 180, 180);
+}
+
+.edit button{
+    background-color: rgb(240, 224, 1);
+    border: 1px solid;
+    font-weight: bold;
+    margin-right: 15px;
+    margin-left: -15px;
+    border-radius: 3px;
+ }
+
+ .edit button:hover{
+    background-color:rgb(252, 245, 151) ;
+ }

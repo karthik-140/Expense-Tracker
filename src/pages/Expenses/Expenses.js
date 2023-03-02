@@ -10,7 +10,7 @@ const Expenses = () => {
     const descriptionInputRef = useRef();
     const categoryInputRef = useRef();
 
-    const onClickHandler = (event) => {
+    const onClickHandler = async (event) => {
         event.preventDefault();
         const enteredAmount = amountInputref.current.value;
         const enteredDescription = descriptionInputRef.current.value;
@@ -20,22 +20,72 @@ const Expenses = () => {
             description: enteredDescription,
             category: enteredCategory,
         }
-        axios.post('https://expense-tracker-aa33e-default-rtdb.firebaseio.com/expenses.json',expenses)
-        setExpenseList([...expenseList, expenses])
-        setShowExpenses(true);
-        amountInputref.current.value = '';
-        descriptionInputRef.current.value = '';
+        try {
+            const response = await axios.post('https://expense-tracker-aa33e-default-rtdb.firebaseio.com/expenses.json', expenses)
+            const idToken = response.data.name;
+            const addExpense = { id: idToken, ...expenses }
+            setExpenseList([...expenseList, addExpense])
+            setShowExpenses(true);
+            amountInputref.current.value = '';
+            descriptionInputRef.current.value = '';
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     useEffect(() => {
-        axios.get(
-            'https://expense-tracker-aa33e-default-rtdb.firebaseio.com/expenses.json'
-        ).then((res) => {
-            const expenses = Object.values(res.data);
-            setShowExpenses(true);
-            setExpenseList([...expenses]);
-        })
+        try {
+            const fetchExpense = async () => {
+                const response = await axios.get(
+                    'https://expense-tracker-aa33e-default-rtdb.firebaseio.com/expenses.json'
+                )
+                const data = response.data;
+                const newExpenseArray = [];
+                for (let key in data) {
+                    newExpenseArray.push({ id: key, ...data[key] })
+                }
+                setShowExpenses(true);
+                if (newExpenseArray.length === 0) {
+                    setShowExpenses(false);
+                }
+                setExpenseList([...newExpenseArray]);
+            }
+            fetchExpense();
+        } catch (err) {
+            console.log(err);
+        }
     }, [])
+
+    const deleteExpenseHandler = async (expense) => {
+        const id = expense.id;
+        try {
+            await axios.delete(
+                `https://expense-tracker-aa33e-default-rtdb.firebaseio.com/expenses/${id}.json`
+            )
+        } catch (err) {
+            console.log(err);
+        }
+        setExpenseList(expenseList.filter((data) => data.id !== expense.id))
+        if (expenseList.length === 1) {
+            setShowExpenses(false);
+        }
+        console.log("Expense is succefully deleted")
+    }
+
+    const editExpenseHandler = async (expense) => {
+        amountInputref.current.value = expense.amount;
+        descriptionInputRef.current.value = expense.description;
+        categoryInputRef.current.value = expense.category;
+        const id = expense.id;
+        try {
+            await axios.delete(
+                `https://expense-tracker-aa33e-default-rtdb.firebaseio.com/expenses/${id}.json`
+            )
+        } catch (err) {
+            console.log(err);
+        }
+        setExpenseList(expenseList.filter((data) => data.id !== expense.id))
+    }
 
     const addedExpenses = (
         expenseList.map((exp) => (
@@ -48,6 +98,12 @@ const Expenses = () => {
                 </div>
                 <div className={classes.category}>
                     {exp.category}
+                </div>
+                <div className={classes.delete}>
+                    <button onClick={() => deleteExpenseHandler(exp)}>Delete</button>
+                </div>
+                <div className={classes.edit}>
+                    <button onClick={() => editExpenseHandler(exp)}>Edit</button>
                 </div>
             </li>
         ))
