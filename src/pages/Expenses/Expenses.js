@@ -41,6 +41,7 @@ const Expenses = () => {
         amountInputref.current.value = '';
         descriptionInputRef.current.value = '';
         setShowExpenses(true);
+        setEditableExpense(null);
     }
 
     useEffect(() => {
@@ -64,7 +65,7 @@ const Expenses = () => {
         } catch (err) {
             console.log(err);
         }
-    }, [])
+    }, [editableExpense])
 
     const deleteExpenseHandler = async (expense) => {
         const id = expense.id;
