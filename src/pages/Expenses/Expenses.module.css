@@ -1,5 +1,5 @@
 .expense-form {
-    width:95%;
+    width: 95%;
     max-width: 40%;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
@@ -152,8 +152,18 @@
     font-weight: bolder;
     font-size: medium;
     border-radius: 4px;
+    margin:1rem;
 }
 
 .actions button:hover{
     background-color:rgb(59, 221, 181);
 }
+
+.dark-theme {
+    /* background-color: #333; */
+    /* color: rgb(66, 48, 48); */
+    background-color: rgb(54, 54, 54);
+    color:rgb(51, 45, 45);
+    margin-right: -60px;
+    padding: 1px 0px; 
+  }

@@ -1,7 +1,9 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
 import classes from './Expenses.module.css';
+import { themeActions } from '../../components/store/themeSlice';
 
 const Expenses = () => {
     const [expenseList, setExpenseList] = useState([]);
@@ -10,9 +12,11 @@ const Expenses = () => {
     const amountInputref = useRef();
     const descriptionInputRef = useRef();
     const categoryInputRef = useRef();
+    const dispatch = useDispatch();
+    let changeTheme = useSelector(state => state.theme.darkTheme)
 
     const email = localStorage.getItem('email');
-    
+
     const onClickHandler = async (event) => {
         event.preventDefault();
         const enteredAmount = amountInputref.current.value;
@@ -118,8 +122,33 @@ const Expenses = () => {
         ))
     )
 
+    useEffect(() => {
+        if (totalAmount < 10000) {
+            dispatch(themeActions.toggleTheme({ value: false }))
+        }
+        if (totalAmount >= 10000 && changeTheme) {
+            dispatch(themeActions.toggleTheme({ value: true }))
+        }
+    }, [dispatch, totalAmount, changeTheme])
+
+    const activatePremiumHandler = () => {
+        dispatch(themeActions.toggleTheme({ value: true }));
+        console.log(changeTheme);
+    }
+
+    const downloadFileHandler = () => {
+        const CSVdata = expenseList.map((data) => `${data.amount},${data.category},${data.description}\n`).join('');
+        const blob = new Blob([CSVdata], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute("download", "data.csv");
+        document.body.appendChild(link);
+        link.click();
+    }
+
     return (
-        <>
+        <div className={classes[changeTheme ? 'dark-theme' : '']}>
             <section className={classes['expense-form']}>
                 <header>Add Expenses</header>
                 <form>
@@ -154,9 +183,13 @@ const Expenses = () => {
                 </div>
             </div>}
             {totalAmount >= 10000 && <div className={classes.actions}>
-                <button>Activate Premium</button>
+                <button onClick={activatePremiumHandler}>
+                    Activate Premium
+                </button>
+                {changeTheme && <button onClick={downloadFileHandler}>Download File</button>}
             </div>}
-        </>
+
+        </div>
     )
 }
 
