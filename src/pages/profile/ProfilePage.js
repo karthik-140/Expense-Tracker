@@ -1,13 +1,15 @@
 import { useHistory } from 'react-router-dom';
-import React, { useRef, useContext, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import classes from './ProfilePage.module.css';
-import AuthContext from '../../components/store/auth-context';
+//import AuthContext from '../../components/store/auth-context';
 
 const ProfilePage = () => {
+    const token = useSelector(state => state.auth.token);
     const nameInputRef = useRef();
     const photoUrlInputRef = useRef();
-    const authCtx = useContext(AuthContext);
+   // const authCtx = useContext(AuthContext);
     const history = useHistory();
 
     const formSumbitHandler = (event) => {
@@ -18,7 +20,8 @@ const ProfilePage = () => {
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({
-                idToken: authCtx.token,
+                //idToken: authCtx.token,
+                idToken: token,
                 displayName: enteredName,
                 photoUrl: enteredPhotoUrl,
                 returnSecureToken: true,
@@ -48,7 +51,8 @@ const ProfilePage = () => {
         fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAh3QApboOkimKRo0ivTZo1CkZk4ZpFK4I', {
             method: 'POST',
             body: JSON.stringify({
-                idToken: authCtx.token,
+                //idToken: authCtx.token,
+                idToken: token,
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -73,7 +77,7 @@ const ProfilePage = () => {
         }).catch((error) => {
             alert(error.message);
         })
-    },[authCtx.token]);
+    },[token]);
 
     return (
         <section >

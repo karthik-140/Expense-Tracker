@@ -1,14 +1,17 @@
 import { Link, useHistory } from 'react-router-dom';
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
 import classes from './ExpenseForm.module.css';
-import AuthContext from '../store/auth-context';
+//import AuthContext from '../store/auth-context';
+import { authActions } from '../store/authSlice';
 
 const ExpenseForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  const authCtx = useContext(AuthContext);
+  //const authCtx = useContext(AuthContext);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +55,9 @@ const ExpenseForm = () => {
       }
     })
       .then((data) => {
-        authCtx.login(data.idToken, enteredEmail);
+       // authCtx.login(data.idToken, enteredEmail);
+       const email = enteredEmail.replace('@','').replace('.','');
+       dispatch(authActions.login({token: data.idToken, email: email}))
         history.replace("/welcome");
       })
       .catch((err) => {

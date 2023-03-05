@@ -11,6 +11,8 @@ const Expenses = () => {
     const descriptionInputRef = useRef();
     const categoryInputRef = useRef();
 
+    const email = localStorage.getItem('email');
+    
     const onClickHandler = async (event) => {
         event.preventDefault();
         const enteredAmount = amountInputref.current.value;
@@ -24,13 +26,13 @@ const Expenses = () => {
         if (editableExpense) {
             const id = editableExpense.id;
             try {
-                await axios.put(`https://expense-tracker-aa33e-default-rtdb.firebaseio.com/expenses/${id}.json`, expenses)
+                await axios.put(`https://expense-tracker-aa33e-default-rtdb.firebaseio.com/${email}/${id}.json`, expenses)
             } catch (err) {
                 console.log(err);
             }
         } else {
             try {
-                const response = await axios.post('https://expense-tracker-aa33e-default-rtdb.firebaseio.com/expenses.json', expenses)
+                const response = await axios.post(`https://expense-tracker-aa33e-default-rtdb.firebaseio.com/${email}.json`, expenses)
                 const idToken = response.data.name;
                 const addExpense = { id: idToken, ...expenses }
                 setExpenseList([...expenseList, addExpense])
@@ -48,7 +50,7 @@ const Expenses = () => {
         try {
             const fetchExpense = async () => {
                 const response = await axios.get(
-                    'https://expense-tracker-aa33e-default-rtdb.firebaseio.com/expenses.json'
+                    `https://expense-tracker-aa33e-default-rtdb.firebaseio.com/${email}.json`
                 )
                 const data = response.data;
                 const newExpenseArray = [];
@@ -65,13 +67,13 @@ const Expenses = () => {
         } catch (err) {
             console.log(err);
         }
-    }, [editableExpense])
+    }, [editableExpense, email])
 
     const deleteExpenseHandler = async (expense) => {
         const id = expense.id;
         try {
             await axios.delete(
-                `https://expense-tracker-aa33e-default-rtdb.firebaseio.com/expenses/${id}.json`
+                `https://expense-tracker-aa33e-default-rtdb.firebaseio.com/${email}/${id}.json`
             )
         } catch (err) {
             console.log(err);
@@ -89,6 +91,10 @@ const Expenses = () => {
         categoryInputRef.current.value = expense.category;
         setEditableExpense(expense);
     }
+
+    const totalAmount = expenseList.reduce((curr, acc) => {
+        return curr + parseInt(acc.amount)
+    }, 0)
 
     const addedExpenses = (
         expenseList.map((exp) => (
@@ -143,6 +149,12 @@ const Expenses = () => {
                 <ul>
                     {addedExpenses}
                 </ul>
+                <div className={classes.total}>
+                    Total Amount = {totalAmount} /-
+                </div>
+            </div>}
+            {totalAmount >= 10000 && <div className={classes.actions}>
+                <button>Activate Premium</button>
             </div>}
         </>
     )

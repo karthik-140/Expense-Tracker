@@ -131,3 +131,29 @@
  .edit button:hover{
     background-color:rgb(252, 245, 151) ;
  }
+
+ .total {
+    text-align: left;
+    font-size: large;
+    padding: 10px 25px;
+    font-weight: bolder;
+ }
+
+ .actions {
+    margin-top: 0.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.actions button{
+    background-color: aquamarine;
+    border: 1px solid green;
+    padding: 12px;
+    font-weight: bolder;
+    font-size: medium;
+    border-radius: 4px;
+}
+
+.actions button:hover{
+    background-color:rgb(59, 221, 181);
+}

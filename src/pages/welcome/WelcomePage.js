@@ -1,12 +1,16 @@
-import { useContext } from "react";
+//import { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import classes from './WelcomePage.module.css';
-import AuthContext from "../../components/store/auth-context";
+import { authActions } from "../../components/store/authSlice";
+//import AuthContext from "../../components/store/auth-context";
 
 const WelcomePage = () => {
-    const authCtx = useContext(AuthContext);
+    //const authCtx = useContext(AuthContext);
+    const token = useSelector(state => state.auth.token);
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const verifyEmailHandler = () => {
         let url = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAh3QApboOkimKRo0ivTZo1CkZk4ZpFK4I'
@@ -14,7 +18,8 @@ const WelcomePage = () => {
             method: 'POST',
             body: JSON.stringify({
                 requestType: "VERIFY_EMAIL",
-                idToken: authCtx.token,
+                //idToken: authCtx.token,
+                idToken: token,
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -34,8 +39,9 @@ const WelcomePage = () => {
     }
 
     const logoutHandler = () =>{
-        localStorage.removeItem('token');
-        localStorage.removeItem('email');
+        // localStorage.removeItem('token');
+        // localStorage.removeItem('email');
+        dispatch(authActions.logout())
         history.replace('/auth');
     }
 
