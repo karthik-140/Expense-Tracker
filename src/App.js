@@ -10,26 +10,12 @@ import WelcomePage from './pages/welcome/WelcomePage';
 import ProfilePage from './pages/profile/ProfilePage';
 import ForgotPassword from './pages/forgotpassword/ForgotPassword';
 import Expenses from './pages/Expenses/Expenses';
-//import { authActions } from './components/store/authSlice';
 
 function App() {
   // const authCtx = useContext(AuthContext);
-  //const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.auth.isAuthenticated);
   const userEmail = useSelector(state => state.auth.email);
   const userToken = useSelector(state => state.auth.token);
-
-  // useEffect(() => {
-  //   const email = localStorage.getItem('email');
-  //   const token = localStorage.getItem('token');
-  //   console.log("initially rendered")
-  //   if (email && token) {
-  //     dispatch(authActions.login({ email: email, token: token }))
-  //   }
-  // }, [dispatch])
-  console.log(isLoggedIn)
-  console.log(userEmail)
-  console.log(userToken)
 
   useEffect(() => {
     console.log("useeffect called");
@@ -37,7 +23,6 @@ function App() {
       console.log(isLoggedIn)
       localStorage.setItem('email', userEmail);
       localStorage.setItem('token', userToken);
-      console.log("useffect fectching")
     }
   }, [isLoggedIn, userEmail, userToken])
 
@@ -56,8 +41,6 @@ function App() {
         <ExpenseForm />
       </Route>
       <Route path="/welcome">
-        {/* {authCtx.isLoggedIn && <WelcomePage />}
-        {!authCtx.isLoggedIn && <Redirect to="/auth" />} */}
         {isAuth && <WelcomePage />}
         {!isAuth && <Redirect to="/auth" />}
       </Route>
@@ -68,10 +51,6 @@ function App() {
         {isAuth && <ForgotPassword />}
         {!isAuth && <Redirect to="/auth" />}
       </Route>
-      {/* {authCtx.isLoggedIn && <Route path="/expenses">
-        <Header />
-        <Expenses />
-      </Route>} */}
       <Route path="/expenses">
         <Header />
        {isAuth && <Expenses />}
