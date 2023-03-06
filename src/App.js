@@ -1,6 +1,6 @@
 //import { useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 import Header from './components/Layout/Header';
@@ -10,40 +10,46 @@ import WelcomePage from './pages/welcome/WelcomePage';
 import ProfilePage from './pages/profile/ProfilePage';
 import ForgotPassword from './pages/forgotpassword/ForgotPassword';
 import Expenses from './pages/Expenses/Expenses';
-import { authActions } from './components/store/authSlice';
+//import { authActions } from './components/store/authSlice';
 
 function App() {
   // const authCtx = useContext(AuthContext);
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.auth.isAuthenticated);
   const userEmail = useSelector(state => state.auth.email);
   const userToken = useSelector(state => state.auth.token);
 
-  useEffect(() => {
-    const email = localStorage.getItem('email');
-    const token = localStorage.getItem('token');
-    if (email && token) {
-      dispatch(authActions.login({ email: email, token: token }))
-    }
-  }, [dispatch])
+  // useEffect(() => {
+  //   const email = localStorage.getItem('email');
+  //   const token = localStorage.getItem('token');
+  //   console.log("initially rendered")
+  //   if (email && token) {
+  //     dispatch(authActions.login({ email: email, token: token }))
+  //   }
+  // }, [dispatch])
+  console.log(isLoggedIn)
+  console.log(userEmail)
+  console.log(userToken)
 
   useEffect(() => {
     console.log("useeffect called");
     if (isLoggedIn) {
+      console.log(isLoggedIn)
       localStorage.setItem('email', userEmail);
       localStorage.setItem('token', userToken);
       console.log("useffect fectching")
-    } else {
-      localStorage.removeItem('email');
-      localStorage.removeItem('token');
-      console.log("useeffect remove")
     }
   }, [isLoggedIn, userEmail, userToken])
+
+  const email = localStorage.getItem('email');
+  const isAuth = !!email;
+  console.log(isAuth)
 
   return (
     <Switch>
       <Route path='/' exact>
-        <Redirect to='/auth' />
+        {!isAuth && <Redirect to='/auth' />}
+        {isAuth && <Redirect to='/welcome' />}
       </Route>
       <Route path="/auth">
         <Header />
@@ -52,13 +58,15 @@ function App() {
       <Route path="/welcome">
         {/* {authCtx.isLoggedIn && <WelcomePage />}
         {!authCtx.isLoggedIn && <Redirect to="/auth" />} */}
-        <WelcomePage />
+        {isAuth && <WelcomePage />}
+        {!isAuth && <Redirect to="/auth" />}
       </Route>
       <Route path="/profile">
         <ProfilePage />
       </Route>
       <Route path="/forgot-password">
-        <ForgotPassword />
+        {isAuth && <ForgotPassword />}
+        {!isAuth && <Redirect to="/auth" />}
       </Route>
       {/* {authCtx.isLoggedIn && <Route path="/expenses">
         <Header />
@@ -66,7 +74,8 @@ function App() {
       </Route>} */}
       <Route path="/expenses">
         <Header />
-        <Expenses />
+       {isAuth && <Expenses />}
+       {!isAuth && <Redirect to="/auth" />}
       </Route>
       <Route path='*'>
         <Redirect to='/' />

@@ -38,14 +38,14 @@ const WelcomePage = () => {
         })
     }
 
-    const logoutHandler = () =>{
-        // localStorage.removeItem('token');
-        // localStorage.removeItem('email');
+    const logoutHandler = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('email');
         dispatch(authActions.logout())
         history.replace('/auth');
     }
 
-    const addClickHandler = () =>{
+    const addClickHandler = () => {
         history.replace('/expenses');
     }
 

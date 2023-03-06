@@ -58,6 +58,8 @@ const ExpenseForm = () => {
        // authCtx.login(data.idToken, enteredEmail);
        const email = enteredEmail.replace('@','').replace('.','');
        dispatch(authActions.login({token: data.idToken, email: email}))
+       localStorage.setItem('email', email)
+       localStorage.setItem('token',data.idToken);
         history.replace("/welcome");
       })
       .catch((err) => {
