@@ -10,12 +10,29 @@
     margin-bottom: 1rem;
 }
 
+.expense-form-dark {
+    width: 95%;
+    max-width: 40%;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    text-align: center;
+    margin: 5rem auto;
+    padding: 2rem;
+    background-color: rgb(82, 85, 85);
+    margin-bottom: 1rem;
+    color: bisque;
+}
+
 .expense-form header {
     font-weight: bolder;
     font-size: 25px;
     padding-bottom: 25px;
 }
-
+.expense-form-dark header {
+    font-weight: bolder;
+    font-size: 25px;
+    padding-bottom: 25px;
+}
 .expense{
     margin-bottom: 0.5rem;
 }
@@ -53,9 +70,20 @@
     padding: 5px;
     font-weight: bolder;
 }
+.expense-form-dark button{
+    width:80px;
+    margin-top: 2rem;
+    background-color: rgb(226, 215, 152);
+    border: 1px solid black;
+    padding: 5px;
+    font-weight: bolder;
+}
 
 .expense-form button:hover{
     background-color: rgb(111, 212, 212);
+}
+.expense-form-dark button:hover{
+    background-color:rgb(243, 221, 96);
 }
 
 .added-expenses {
@@ -64,12 +92,14 @@
     max-width: 50%;
     box-shadow: 0 1px 4px rgba(0,0,0,0.3);
     background-color:rgb(200, 248, 252) ;
+    border-radius: 8px;
 }
 
 .added-expenses ul {
     list-style-type: none;
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
 }
 
 .added-expenses li {

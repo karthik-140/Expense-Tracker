@@ -132,8 +132,11 @@ const Expenses = () => {
     }, [dispatch, totalAmount, changeTheme])
 
     const activatePremiumHandler = () => {
-        dispatch(themeActions.toggleTheme({ value: true }));
-        console.log(changeTheme);
+        if (!changeTheme) {
+            dispatch(themeActions.toggleTheme({ value: true }));
+        } else {
+            dispatch(themeActions.toggleTheme({ value: false }));
+        }
     }
 
     const downloadFileHandler = () => {
@@ -149,7 +152,7 @@ const Expenses = () => {
 
     return (
         <div className={classes[changeTheme ? 'dark-theme' : '']}>
-            <section className={classes['expense-form']}>
+            <section className={classes[changeTheme ? 'expense-form-dark' : 'expense-form']}>
                 <header>Add Expenses</header>
                 <form>
                     <div className={classes.expense}>
