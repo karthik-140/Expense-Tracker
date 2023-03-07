@@ -65,19 +65,21 @@ const ProfilePage = () => {
                 throw new Error(errorMessage);
             }
         }).then((data) => {
-            const email = localStorage.getItem('email');
+            //  const email = localStorage.getItem('email');
             const users = data.users;
-            users.forEach((user) =>{
-                if(user.email === email){
+            users.forEach((user) => {
+                //  if(user.email === email){
+                if (user.displayName !== undefined && user.photoUrl !== undefined) {
                     nameInputRef.current.value = user.displayName;
                     photoUrlInputRef.current.value = user.photoUrl;
                 }
+                //  }
             })
-            
+
         }).catch((error) => {
             alert(error.message);
         })
-    },[token]);
+    }, [token]);
 
     return (
         <section >
