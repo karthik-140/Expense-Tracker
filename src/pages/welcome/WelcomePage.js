@@ -33,6 +33,7 @@ const WelcomePage = () => {
             }
         }).then((data) => {
             console.log(data);
+            alert("Please check your mail to verify account");
         }).catch((err) => {
             alert(err.message);
         })
