@@ -48,8 +48,7 @@ function App() {
         <ProfilePage />
       </Route>
       <Route path="/forgot-password">
-        {isAuth && <ForgotPassword />}
-        {!isAuth && <Redirect to="/auth" />}
+        <ForgotPassword />
       </Route>
       <Route path="/expenses">
         <Header />
