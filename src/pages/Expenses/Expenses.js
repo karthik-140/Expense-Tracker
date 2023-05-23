@@ -187,7 +187,7 @@ const Expenses = () => {
             </div>}
             {totalAmount >= 10000 && <div className={classes.actions}>
                 <button onClick={activatePremiumHandler}>
-                    Activate Premium
+                    {changeTheme ? "Disable Premium" : "Activate Premium"}
                 </button>
                 {changeTheme && <button onClick={downloadFileHandler}>Download File</button>}
             </div>}
