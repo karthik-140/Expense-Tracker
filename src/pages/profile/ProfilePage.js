@@ -38,6 +38,7 @@ const ProfilePage = () => {
             }
         }).then((data) => {
             console.log(data);
+            alert("Profile updated");
         }).catch((error) => {
             alert(error.message);
         })

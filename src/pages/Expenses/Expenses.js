@@ -22,6 +22,10 @@ const Expenses = () => {
         const enteredAmount = amountInputref.current.value;
         const enteredDescription = descriptionInputRef.current.value;
         const enteredCategory = categoryInputRef.current.value;
+        if(enteredAmount === "" || enteredDescription === "" || enteredCategory === ""){
+            alert("enter expenses");
+            return;
+        }
         const expenses = {
             amount: enteredAmount,
             description: enteredDescription,
