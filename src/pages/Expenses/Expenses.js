@@ -4,9 +4,10 @@ import axios from 'axios';
 
 import classes from './Expenses.module.css';
 import { themeActions } from '../../components/store/themeSlice';
+import { expenseActions } from '../../components/store/expenseSlice';
 
 const Expenses = () => {
-    const [expenseList, setExpenseList] = useState([]);
+    // const [expenseList, setExpenseList] = useState([]);
     const [showExpenses, setShowExpenses] = useState(false);
     const [editableExpense, setEditableExpense] = useState(null);
     const amountInputref = useRef();
@@ -14,6 +15,9 @@ const Expenses = () => {
     const categoryInputRef = useRef();
     const dispatch = useDispatch();
     let changeTheme = useSelector(state => state.theme.darkTheme)
+    const {expenseList} = useSelector(state => state.expense)
+
+    // console.log(expenseList);
 
     const email = localStorage.getItem('email');
 
@@ -43,7 +47,8 @@ const Expenses = () => {
                 const response = await axios.post(`https://expense-tracker-aa33e-default-rtdb.firebaseio.com/${email}.json`, expenses)
                 const idToken = response.data.name;
                 const addExpense = { id: idToken, ...expenses }
-                setExpenseList([...expenseList, addExpense])
+                // setExpenseList([...expenseList, addExpense])
+                dispatch(expenseActions.addExpenses({add: [...expenseList, addExpense]}))
             } catch (err) {
                 console.log(err);
             }
@@ -69,13 +74,14 @@ const Expenses = () => {
                 if (newExpenseArray.length === 0) {
                     setShowExpenses(false);
                 }
-                setExpenseList([...newExpenseArray]);
+                // setExpenseList([...newExpenseArray]);
+                dispatch(expenseActions.addExpenses({add: [...newExpenseArray]}))
             }
             fetchExpense();
         } catch (err) {
             console.log(err);
         }
-    }, [editableExpense, email])
+    }, [editableExpense, email, dispatch])
 
     const deleteExpenseHandler = async (expense) => {
         const id = expense.id;
@@ -86,7 +92,8 @@ const Expenses = () => {
         } catch (err) {
             console.log(err);
         }
-        setExpenseList(expenseList.filter((data) => data.id !== expense.id))
+       const filteredExpenses = (expenseList.filter((data) => data.id !== expense.id))
+       dispatch(expenseActions.addExpenses({add: filteredExpenses}));
         if (expenseList.length === 1) {
             setShowExpenses(false);
         }
